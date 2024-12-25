@@ -9,6 +9,13 @@ Input: nums = [1, 2, 3, 3]
 Output: true
 */
 
+/*
+Algorithm:
+    1. Maintain a map of elements as you iterate over it
+    2. If the current element is found in the map, return true
+    3. If element not found, add it to the map
+    4. Return false if iteration over the array is complete
+*/
 class Solution {
 public:
     bool hasDuplicate(std::vector<int>& nums) {

@@ -1,5 +1,5 @@
-#include<vector>
-
+#include <vector>
+#include <iostream>
 /*
 Given an integer array nums, return an array output where output[i] is the product of all the elements of nums except nums[i].
 Each product is guaranteed to fit in a 32-bit integer.
@@ -18,6 +18,14 @@ Constraints:
 2 <= nums.length <= 1000
 -20 <= nums[i] <= 20
 */
+
+/*
+Algorithm:
+    1. Create two vectors, leftProduct and rightProduct
+    2. Compute and store the product of the elements to the left of the current element
+    3. Compute and store the product of the elements to the right of the current element
+    4. Compute the product of the left and right product vectors
+*/
 class Solution {
 public:
     std::vector<int> productExceptSelf(std::vector<int>& nums) {
@@ -35,6 +43,17 @@ public:
             currProductL *= nums[i];
             currProductR *= nums[sizeNums-i-1];
         }
+
+        // for (auto l:leftProduct){
+        //     std::cout << l << " ";
+        // }
+        // std::cout << '\n';
+
+        // for (auto r:rightProduct){
+        //     std::cout << r << " ";
+        // } 
+        // std::cout << '\n';
+
         for (int i=0 ; i<sizeNums ; i++){
             leftProduct[i] *= rightProduct[sizeNums-i-1];
         }
@@ -42,3 +61,9 @@ public:
         return leftProduct;
     }
 };
+
+int main(){
+    Solution s;
+    std::vector<int> n = {5,2,4,6};
+    s.productExceptSelf(n);
+}

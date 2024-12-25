@@ -13,6 +13,17 @@ Output: 4
 
 Explanation: The longest consecutive sequence is [2, 3, 4, 5].
 */
+
+/*
+Algorithm:
+    1. Add all the elements of the array to a set
+    2. Define a pair {0, 0}, that denotes the start and end of the max range
+    3. Iterate over nums:
+        1. If the current element is in between the range above, do nothing
+        2. Else, decrement the current element as long as the decremented value is in the set.
+        3. Increment the current element as long as the incremented value is in the set.
+        4. If this range is greater than the current range (from pair), update the pair
+*/
 class Solution {
 public:
     int longestConsecutive(std::vector<int>& nums) {

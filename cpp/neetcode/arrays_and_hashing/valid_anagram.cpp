@@ -10,6 +10,13 @@ Example 1:
 Input: s = "racecar", t = "carrace"
 Output: true
 */
+
+/*
+Algorithm
+    1. Iterate over both the strings
+    2. Add the characters along with the count to a map for each string
+    3. Return true if both maps are identical
+*/
 class Solution {
 public:
     bool isAnagram(std::string s, std::string t) {

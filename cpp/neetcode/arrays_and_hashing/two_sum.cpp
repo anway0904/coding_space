@@ -16,6 +16,14 @@ Output: [0,1]
 Explanation: nums[0] + nums[1] == 7, so we return [0, 1].
 */
 
+/*
+Algorithm:
+    1. Iterate over nums
+    2. For each element, find target-element in the map
+    3. If found, return answer
+    4. If not found add the current element and its index to the map
+*/
+
 class Solution {
 public:
     std::vector<int> twoSum(std::vector<int>& nums, int target) {

@@ -11,6 +11,12 @@ You are given a a 9 x 9 Sudoku board board. A Sudoku board is valid if the follo
 Note: A board does not need to be full or be solvable to be valid.
 */
 
+/*
+Algorithm:
+    1. Create a vector of sets for each row, column and sub_block (27 sets)
+    2. Iterate over the sudoku matrix and if element found in corresponding row, col or sub_block, return false
+    3. Else add the element to the sets corresponding to the row, col and sub_block
+*/
 class Solution {
 public:
     bool isValidSudoku(std::vector<std::vector<char>>& board) {
