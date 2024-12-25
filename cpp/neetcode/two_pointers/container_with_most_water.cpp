@@ -12,6 +12,15 @@ Example 2:
 Input: height = [2,2,2]
 Output: 4
 */
+
+/*
+Algorithm:
+    1. Start with two pointers at the start and end of the height array
+    2. Calculate the area of "water". min(height[left_ptr], height[right_ptr])*(right_ptr-lft_ptr)
+    3. Update the max_area
+    3. Increment/Decrement the lower height from the two pointers
+    4. Repeat until left_ptr < right_ptr
+*/
 class Solution {
 public:
     int maxArea(std::vector<int>& height) {

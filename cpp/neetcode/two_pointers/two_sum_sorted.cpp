@@ -16,6 +16,14 @@ Explanation:
 The sum of 1 and 2 is 3. Since we are assuming a 1-indexed array, index1 = 1, index2 = 2. We return [1, 2].
 */
 
+/*
+Algorithm:
+    1. Initialize two pointers at the start and end of the numbers array
+    2. Compute the sum of the two elements
+    3. If sum = target, return
+    4. If sum<target increment left pointer
+    5. If sum>target decrement right pointer
+*/
 class Solution {
 public:
     std::vector<int> twoSum(std::vector<int>& numbers, int target) {

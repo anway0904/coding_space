@@ -13,6 +13,14 @@ Output: true
 Explanation: After considering only alphanumerical characters we have "wasitacaroracatisaw", which is a palindrome.
 */
 
+/*
+Algorithm:
+    1. Initialize two pointers at the start and end of the numbers array
+    2. Increment left pointer until alpha-numeric found
+    3. Decrement right pointer until alpha-numeric found
+    4. Return false if left pointer != right pointer
+*/
+
 class Solution {
 public:
     bool isPalindrome(std::string s) {

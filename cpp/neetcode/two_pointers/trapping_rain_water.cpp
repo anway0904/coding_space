@@ -13,6 +13,15 @@ Example 2:
 Input: height = [4,2,0,3,2,5]
 Output: 9
 */
+
+/*
+Algorithm
+    1. Initialize a left and right pointer at the start and end of the height array
+    2. Calculate the height of "water" in between the left and right pointer --> min(height[leftPtr], height[rightPtr])
+    3. Calculate the area of the "water" --> (curr_height - prev_height)*(rightPtr - leftPtr - 1)
+    4. Need to subtract the previous height to not calculate the same area twice
+    5. As you iterate over the array, subtract the area of "blocks" from the calculated water area.
+*/
 class Solution {
 public:
     int trap(std::vector<int>& height) {

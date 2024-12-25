@@ -27,6 +27,16 @@ Output: [[0,0,0]]
 Explanation: The only possible triplet sums up to 0.
 */
 
+/*
+Algorithm
+    1. Sort the array
+    2. Iterate over the array
+    3. Initialize two pointers, one at idx next to current element, and one at the end of the array
+    4. calculate the sum of the three elements
+    5. If the sum=0, append the elements to the answer
+        1. Increment the left pointer until it is not equal to its current value and <right pointer
+    6. If sum<0, increment left pointer, else if sum>0, increment the right pointer
+*/
 class Solution {
 public:
     std::vector<std::vector<int>> threeSum(std::vector<int>& nums) {
