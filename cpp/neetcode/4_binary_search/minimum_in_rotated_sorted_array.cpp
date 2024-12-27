@@ -26,6 +26,7 @@ Example 3:
     Output: 11
     Explanation: The original array was [11,13,15,17] and it was rotated 4 times.
 */
+
 class Solution {
 public:
     int findMin(std::vector<int>& nums) {
