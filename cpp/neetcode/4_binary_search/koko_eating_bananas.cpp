@@ -45,7 +45,7 @@ public:
         // Return the max speed if hours = piles (need to eat one pile per hour)
         if (h == numPiles) return minSpeed;
 
-        // Binary search from 0-maxSpeed
+        // Binary search from 1-maxSpeed
         int leftPtr = 1;
         int rightPtr = maxSpeed;
 
