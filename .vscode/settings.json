@@ -62,6 +62,8 @@
         "xutility": "cpp",
         "unordered_set": "cpp",
         "functional": "cpp",
-        "stack": "cpp"
+        "stack": "cpp",
+        "map": "cpp",
+        "xtree": "cpp"
     }
 }
