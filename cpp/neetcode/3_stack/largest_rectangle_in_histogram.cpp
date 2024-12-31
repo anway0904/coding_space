@@ -17,6 +17,14 @@ Example 2:
 Input: heights = [2,4]
 Output: 4
 */
+
+/*
+Algorithm
+    1. Try to form rectangles by going through every bar and current bar's height will be the height of the rectangle.
+    2. For a bar with height h, extend it to the left and right. Can't extend further when we encounter a bar with a smaller height than h
+    3. Use a stack with a monotonically strictly increasing nature, but instead of storing values, we store indices in the stack
+    4. 
+*/
 class Solution {
 public:
     int largestRectangleArea(std::vector<int>& heights) {
@@ -28,13 +36,12 @@ public:
             int currRectangleHeight = heights[i];
             int leftIdx = i;
             
-            if (!increasingStack.empty() && currRectangleHeight == increasingStack.top().second ){
+            if (!increasingStack.empty() && currRectangleHeight == increasingStack.top().second){
                 continue;
             }
 
             while (!increasingStack.empty() && currRectangleHeight < increasingStack.top().second){
                 auto [idx, height] = increasingStack.top();
-                // std::cout << i << " " << idx << " " << height << " " << maxArea << '\n';
                 int currArea = (i - idx)*height;
                 if (currArea > maxArea) maxArea = currArea;
                 increasingStack.pop();

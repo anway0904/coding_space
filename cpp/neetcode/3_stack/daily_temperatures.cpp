@@ -18,6 +18,14 @@ Example 3:
 Input: temperatures = [30,60,90]
 Output: [1,1,0]
 */
+
+/*
+Algorithm
+    1. Use a stack to maintain indices in a monotonically decreasing order
+    2. Iterate over the temperatures and push to stack if current temperature is less than that of top of stack
+    3. Otherwise, pop elements from the stack until the top element of the stack is no longer less than the current element
+    4. For each popped element, compute the difference between the indices and store it in the position corresponding to the popped element.
+*/
 class Solution {
 public:
     std::vector<int> dailyTemperatures(std::vector<int>& temperatures) {

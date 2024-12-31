@@ -42,6 +42,14 @@ Then, the fleet at 4 (speed 2) and the car at position 5 (speed 1) become one fl
 moves at speed 1 until it reaches target.
 */
 
+/*
+Algorithm
+    1. Sort the cars according to the position of the cars
+    2. Iterate over the sorted vector and calculate the time to target
+    3. Push the time to target to the stack if the current time is greater than that at top of stack
+    4. The size of the stack is the number of fleets that will be formed
+*/
+
 class Solution {
 public:
     int carFleet(int target, std::vector<int>& position, std::vector<int>& speed) {

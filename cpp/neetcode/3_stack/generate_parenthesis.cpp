@@ -13,6 +13,14 @@ Input: n = 1
 Output: ["()"]
 */
 
+/*
+Algorithm
+    1. This problem can be solved using recursion
+    2. Take into account some simple rules to generate valid parenthesis
+    3. String will always start with an open bracket and end with a closed bracket
+    4. You can add an open bracket if open bracket count < n
+    5. You can add a closed bracket if open bracket count < close bracket count
+*/
 class Solution {
 public:
     void addBracket(int openCount, int closeCount, 
