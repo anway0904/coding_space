@@ -1,0 +1,58 @@
+<robot name="ur5_robot_arm">
+    <link name="base_link"/>
+    <link name="link1"/>
+    <link name="link2"/>
+    <link name="link3"/>
+    <link name="link4"/>
+    <link name="link5"/>
+    <link name="link6"/>
+
+    <joint name="base" type="revolute">
+        <origin rpy="0 0 0" xyz="0 0 0.1625"/>
+        <axis xyz="0 0 1"/>
+        <limit lower="-6.28" upper="6.28" effort="150.0" velocity="3.14"/>
+        <parent link="base_link"/>
+        <child link="link1"/>
+    </joint>
+
+    <joint name="shoulder" type="revolute">
+        <origin rpy="1.57 0 0" xyz="0 0 0"/>
+        <axis xyz="0 0 1"/>
+        <limit lower="-6.28" upper="6.28" effort="150.0" velocity="3.14"/>
+        <parent link="link1"/>
+        <child link="link2"/>
+    </joint>
+
+    <joint name="elbow" type="revolute">
+        <origin rpy="0 0 0" xyz="-0.425 0 0"/>
+        <axis xyz="0 0 1"/>
+        <limit lower="-6.28" upper="6.28" effort="150.0" velocity="3.14"/>
+        <parent link="link2"/>
+        <child link="link3"/>
+    </joint>
+
+    <joint name="wrist1" type="revolute">
+        <origin rpy="0 0 0" xyz="-0.3922 0 0.1333"/>
+        <axis xyz="0 0 1"/>
+        <limit lower="-6.28" upper="6.28" effort="28.0" velocity="3.14"/>
+        <parent link="link3"/>
+        <child link="link4"/>
+    </joint>
+
+    <joint name="wrist2" type="revolute">
+        <origin rpy="1.57 0 0" xyz="0 -0.0997 -2.044881182297852e-11"/>
+        <axis xyz="0 0 1"/>
+        <limit lower="-6.28" upper="6.28" effort="28.0" velocity="3.14"/>
+        <parent link="link4"/>
+        <child link="link5"/>
+    </joint>
+
+    <joint name="wrist3" type="revolute">
+        <origin rpy="1.57 3.14 3.14" xyz="0 0.0996 -2.042830148012698e-11"/>
+        <axis xyz="0 0 1"/>
+        <limit lower="-6.28" upper="6.28" effort="28.0" velocity="3.14"/>
+        <parent link="link5"/>
+        <child link="link6"/>
+    </joint>
+
+</robot>

@@ -12,7 +12,7 @@ class Canvas {
         const int HEIGHT;
 
     public:
-        Canvas(int width, int height) : WIDTH(width), HEIGHT(height), grid(height, std::string(width, '.')){
+        Canvas(int width, int height) : WIDTH(width), HEIGHT(height), grid(height, std::string(width, ' ')){
             std::cout << "Initializing Canvas with width = " << WIDTH << ", height = " << HEIGHT << '\n';
         }
 
@@ -52,9 +52,9 @@ int main() {
 
     for (int x=0 ; x<canvasX ; x++){
         for (int y=0 ; y<canvasY ; y++) {
-            canvas.setPixel(x, y,'A');          
+            canvas.setPixel(x, y, 'A');          
             canvas.render();
-            std::this_thread::sleep_for(std::chrono::milliseconds(15));
+            std::this_thread::sleep_for(std::chrono::milliseconds(30));
         }
     }
 
