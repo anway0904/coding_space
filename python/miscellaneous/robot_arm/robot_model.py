@@ -22,30 +22,36 @@ class Joint():
     rpy : str           # "r p y" rotation wrt parent (in radians)
     state : float = 0.  # current rotation angle in radians
 
+@dataclass
+class TFInfo():
+    parent : str
+    child : str
+    R : np.ndarray  # 3x3 matrix
+    T : np.ndarray  # 3x1 vector
+    H : np.ndarray  # 4x4 matrix (homogeneous)
+    P : np.ndarray  # 3x4 matric (R and T)
 
-class PlotHelper():
-    @staticmethod
-    def get_static_tf(joint : Joint):
+class TF():
+    def get_info(joint : Joint):
         roll, pitch, yaw = map(float, joint.rpy.split())
         tx, ty, tz = map(float, joint.xyz.split())
 
-        rotation_matrix = R.from_euler('xyz', [roll, pitch, yaw]).as_matrix()
+        rotation_matrix = np.array(R.from_euler('xyz', [roll, pitch, yaw]).as_matrix())
 
         transformation_matrix = np.eye(4)
         transformation_matrix[:3, :3] = rotation_matrix  # Top-left 3x3 is rotation
         transformation_matrix[:3, 3] = [tx, ty, tz]      # Top-right 3x1 is translation
 
-        return transformation_matrix
+        translation_vector = np.array([[tx], [ty], [tz]])
 
-    @staticmethod
-    def get_rotation_translation(joint : Joint):
-        roll, pitch, yaw = map(float, joint.rpy.split())
-        translation_vector = np.array(list(map(float, joint.xyz.split())))
+        return TFInfo(parent = joint.parent,
+                      child = joint.name,
+                      R = rotation_matrix,
+                      T = translation_vector,
+                      H = transformation_matrix,
+                      P = transformation_matrix[:3,:])
 
-        rotation_matrix = np.array(R.from_euler('xyz', [roll, pitch, yaw]).as_matrix())
-
-        return rotation_matrix, translation_vector
-
+class PlotHelper():
     @staticmethod
     def render_joints(joints : Dict[str,Joint]):
         fig = plt.figure()
