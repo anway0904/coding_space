@@ -6,11 +6,11 @@ import matplotlib.pyplot as plt
 from scipy.spatial.transform import Rotation as R
 import numpy as np
 
-# For future expansion
-class JointType(Enum):
-    REVOLUTE = 0
-    PRISMATIC = 1
-    CONTINUOUS = 2
+# # For future expansion
+# class JointType(Enum):
+#     REVOLUTE = 0
+#     PRISMATIC = 1
+#     CONTINUOUS = 2
 
 @dataclass
 class Joint():
@@ -32,6 +32,7 @@ class TFInfo():
     P : np.ndarray  # 3x4 matric (R and T)
 
 class TF():
+    @staticmethod
     def get_info(joint : Joint):
         roll, pitch, yaw = map(float, joint.rpy.split())
         tx, ty, tz = map(float, joint.xyz.split())
@@ -51,73 +52,45 @@ class TF():
                       H = transformation_matrix,
                       P = transformation_matrix[:3,:])
 
-class PlotHelper():
-    @staticmethod
-    def render_joints(joints : Dict[str,Joint]):
-        fig = plt.figure()
-        ax  = fig.add_subplot(111, projection='3d')
-        ax.set_xlabel('X axis')
-        ax.set_ylabel('Y axis')
-        ax.set_zlabel('Z axis')
+class Plot():
+    def __init__(self):
+        self.fig = plt.figure()
+        self.ax  = self.fig.add_subplot(111, projection='3d')
+        self.ax.set_xlabel('X axis')
+        self.ax.set_ylabel('Y axis')
+        self.ax.set_zlabel('Z axis')
 
-        cumulative_R = np.eye(3)
-        frame_center = np.array([0,0,0,1])
+    def joint_frames(self, joints : Dict[str,Joint]):
 
-        for joint in joints.values():
-            R, t = PlotHelper.get_rotation_translation(joint)
-            # curr_tf = static_tf @ curr_tf
-            # frame_center = curr_tf @ frame_center
-            # frame_center/=frame_center[-1]
-            R = cumulative_R @ R
-            frame_center = R.T @ -t
+        # Identity rotation, translation 
+        T = np.zeros([3, 1])
+        R = np.eye(3)
 
-            # x_axis = static_tf @ np.array([1, 0, 0, 1])
-            # y_axis = static_tf @ np.array([0, 1, 0, 1])
-            # z_axis = static_tf @ np.array([0, 0, 1, 1])
-            x_axis = R.T @ np.array([1, 0, 0])
-            y_axis = R.T @ np.array([0, 1, 0])
-            z_axis = R.T @ np.array([0, 0, 1])  
+        H_wrt_I = []
 
-            # x_axis/=x_axis[-1]
-            # y_axis/=y_axis[-1]
-            # z_axis/=z_axis[-1]
+        for idx, joint in enumerate(joints.values()):
+            joint_tf = TF.get_info(joint)
+            prev_tf = H_wrt_I[idx-1] if H_wrt_I else np.eye(4)
+            H_wrt_I.append(prev_tf @ joint_tf.H)
+            self.ax.scatter(*np.linalg.inv(H_wrt_I[idx])[:3,3])
 
-            # ax.scatter(frame_center[0], frame_center[1], frame_center[2])
-
-            # ax.quiver(*frame_center[:3], *x_axis[:3], color='r', arrow_length_ratio=0.01)
-            # ax.quiver(*frame_center[:3], *y_axis[:3], color='g', arrow_length_ratio=0.01)
-            # ax.quiver(*frame_center[:3], *z_axis[:3], color='b', arrow_length_ratio=0.01)
-
-            # Plot the camera origin
-            ax.scatter(*frame_center, c='r', marker='o')
-            ax.text(*frame_center + 0.1, f"{joint.name}", color='blue')
-
-            # Plot the axes
-            ax.quiver(*frame_center, *x_axis, color='r', arrow_length_ratio=0.00001)
-            ax.quiver(*frame_center, *y_axis, color='g', arrow_length_ratio=0.00001)
-            ax.quiver(*frame_center, *z_axis, color='b', arrow_length_ratio=0.00001)
-
-            limits = np.array([ax.get_xlim3d(),
-                               ax.get_ylim3d(),
-                               ax.get_zlim3d(),])
-
-            origin = np.mean(limits, axis=1)
-            radius =  1 * np.max(np.abs(limits[:, 1] - limits[:, 0]))
-
-            ax.set_xlim3d([origin[0] - radius, origin[0] + radius])
-            ax.set_ylim3d([origin[1] - radius, origin[1] + radius])
-            ax.set_zlim3d([origin[2] - radius, origin[2] + radius])
-
-        plt.show()
-
+            print(np.linalg.inv(H_wrt_I[idx])[:3,3])
+            
 
 class RobotArm():
-    def __init__(self):
+    def __init__(self) -> None:
         self.joints : Dict[str, Joint] = {}
 
-    def add_joint(self, joint : Joint):
+    def add_joint(self, joint : Joint) -> None:
         self.joints[joint.name] = joint
 
+    def get_joint(self, name : str) -> Joint:
+        joint = self.joints.get(name, False)
+        if not joint:
+            raise NameError(f"{name} joint not found!")
+        
+        return joint
+    
     def view_joints(self):
         PlotHelper.render_joints(self.joints)        
     
@@ -125,6 +98,8 @@ class RobotArm():
         print("Joint States (degrees)\n--------------")
         for joint in self.joints.values():
             print(f"{joint.name} : {joint.state * 180/pi}")
+
+    
 
 if __name__ == "__main__":
     ur5 = RobotArm()
@@ -170,4 +145,8 @@ if __name__ == "__main__":
                         xyz="0 -0.0997 0",
                         rpy=f"{pi/2} {2*pi} {2*pi}"))
     
-    ur5.view_joints()
+    # print(TF.get_info(ur5.get_joint("shoulder")))
+
+    plot = Plot()
+    plot.joint_frames(ur5.joints)
+    plt.show()
